@@ -1,0 +1,69 @@
+{% extends "layouts/default.html.twig" %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="text-center">TV Shows</h1>
+                <hr />
+                    <div class="gap half">&nbsp;</div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+                            {% include "partials/search.html.twig" %}
+                        </div>
+                    </div>
+                    <div class="gap half">&nbsp;</div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-0">
+                        <div class="well">
+                            <h3 class="text-center">On the air</h3>
+                            <ul>
+                                {% for record in on_the_air.results %}
+                                    <li>
+                                        <a href="{{ app.request.baseUrl ~ '/showtv/shows/' ~ record.id }}">{{ record.name }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-0">
+                        <div class="well">
+                            <h3 class="text-center">Airing today</h3>
+                            <ul>
+                                {% for record in airing_today.results %}
+                                    <li>
+                                        <a href="{{ app.request.baseUrl ~ '/showtv/shows/' ~ record.id }}">{{ record.name }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-0">
+                        <div class="well">
+                            <h3 class="text-center">Top-rated</h3>
+                            <ul>
+                                {% for record in top_rated.results %}
+                                    <li>
+                                        <a href="{{ app.request.baseUrl ~ '/showtv/shows/' ~ record.id }}">{{ record.name }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-0">
+                        <div class="well">
+                            <h3 class="text-center">Popular</h3>
+                            <ul>
+                                {% for record in popular.results %}
+                                    <li>
+                                        <a href="{{ app.request.baseUrl ~ '/showtv/shows/' ~ record.id }}">{{ record.name }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

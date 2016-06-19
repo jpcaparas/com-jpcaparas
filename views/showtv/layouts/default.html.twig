@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="ShowTV.com Feature Showcase">
+    <meta name="author" content="JP Caparas">
+
+    <title>{% block title %}ShowTV.com{% endblock title %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://bootswatch.com/simplex/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+
+    <!-- ShowTV main styles -->
+    <link rel="stylesheet" href="{{ app.request.baseUrl ~ '/assets/css/showtv.css' }}" type="text/css"/>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+{% include "partials/nav.html.twig" %}
+
+<section id="main">
+    {% block main %}
+    {% endblock %}
+</section>
+
+{% include "partials/footer.html.twig" %}
+
+{% block scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{{ app.request.baseUrl ~ '/assets/js/bootstrap.min.js' }}"></script>
+    <script src="{{ app.request.baseUrl ~ '/assets/js/jssor/js/jssor.slider.mini.js' }}"></script>
+{% endblock %}
+</body>
+</html>

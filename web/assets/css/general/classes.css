@@ -1,0 +1,15 @@
+.gap {
+  height: 6em;
+}
+.gap.quarter {
+  font-size: 25%;
+}
+.gap.half {
+  font-size: 50%;
+}
+.gap.double {
+  font-size: 200%;
+}
+.panel.trailer .panel-heading h4 {
+  margin-bottom: 0;
+}

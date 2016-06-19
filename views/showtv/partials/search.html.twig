@@ -1,0 +1,14 @@
+<form action="{{ app.request.baseUrl ~ '/showtv/shows' }}">
+    <div class="search-form">
+        <form action="{{ app.request.baseUrl ~ '/showtv/shows' }}" method="get">
+            <div class="input-group">
+                <input type="text" placeholder="Discover TV shows" name="s" class="form-control">
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</form>
