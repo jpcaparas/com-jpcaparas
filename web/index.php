@@ -53,9 +53,11 @@ $app->after( function ( Request $request, Response $response ) use ( $app ) {
 } );
 
 $app->match( '/', function () use ( $app ) {
-	return 'test';
+	return $app->redirect('http://jpcaparas.com', 302);
 } );
 
-$app->mount( '/showtv', new \App\Controller\Client\HyperlinkWeb\ShowTVController() );
+if ( $app['environment'] !== 'production' ) {
+	$app->mount( '/showtv', new \App\Controller\Client\HyperlinkWeb\ShowTVController() );
+}
 
 $app->run();
