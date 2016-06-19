@@ -26,12 +26,13 @@
             </div>
         </div>
     </div>
-    {% block scripts %}
-        {{ parent() }}
-        <script>
-            $("#share").jsSocials({
-                shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest"]
-            });
-        </script>
-    {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script>
+        $("#share").jsSocials({
+            shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest"]
+        });
+    </script>
 {% endblock %}
