@@ -19,7 +19,16 @@
                     </em>
                 </p>
                 <hr />
+
+                <div class="gap half">&nbsp;</div>
+                <div id="share"></div>
+                <div class="gap half">&nbsp;</div>
             </div>
         </div>
     </div>
+    <script>
+        $("#share").jsSocials({
+            shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest"]
+        });
+    </script>
 {% endblock %}
