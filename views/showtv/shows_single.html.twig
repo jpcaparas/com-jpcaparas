@@ -2,6 +2,10 @@
 
 {% block title %}{{ meta.name }} | TV Shows | {{ parent() }}{% endblock %}
 
+{% block stylesheets %}
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.2.1/jssocials.css" />
+{% endblock %}
+
 {% block main %}
     <div class="container">
         <div class="row">
@@ -30,6 +34,7 @@
 
 {% block scripts %}
     {{ parent() }}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.jssocials/1.2.1/jssocials.min.js"></script>
     <script>
         $("#share").jsSocials({
             shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest"]
