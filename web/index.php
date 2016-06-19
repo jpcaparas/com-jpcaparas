@@ -43,6 +43,6 @@ $app->match( '/', function () use ( $app ) {
 	return 'test';
 } );
 
-$app->mount( '/showtv', new \App\Controller\Client\Hyperlinkweb\ShowTVController() );
+$app->mount( '/showtv', new \App\Controller\Client\HyperlinkWeb\ShowTVController() );
 
 $app->run();
