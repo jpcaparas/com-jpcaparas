@@ -37,7 +37,7 @@ if ( getenv( 'DEBUG' ) ) {
 	);
 }
 
-// Register providers
+// Register global providers
 $app->register(
 	new SilexProvider\TwigServiceProvider(),
 	[

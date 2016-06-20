@@ -15,6 +15,7 @@
                 {% include "partials/under_construction.html.twig" %}
 
                 <h1 class="text-center">{{ meta.name }}</h1>
+
                 <p>
                     <em>
                         {% if meta.overview %}
@@ -24,7 +25,33 @@
                         {% endif %}
                     </em>
                 </p>
-                <hr />
+
+                {% if trailers is not empty %}
+                    <div class="gap half">&nbsp;</div>
+                    <h3><i class="fa fa-youtube-play"></i> Trailers you might like</h3>
+                    <ul class="nav nav-tabs">
+                        {% for trailer in trailers %}
+                            <li {{ loop.index == 1 ? 'class="active"' : '' }}>
+                                <a data-toggle="tab" href="#trailer-{{ loop.index }}">Trailer #{{ loop.index }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="tab-content">
+                        {% for trailer in trailers %}
+                            <div id="trailer-{{ loop.index }}" class="tab-pane fade in{{ loop.index == 1 ? ' active' : '' }}">
+                                <div class="gap quarter">&nbsp;</div>
+                                {% if trailer.id.playlistId is defined %}
+                                    <iframe width="100%" height="400" src="https://www.youtube.com/embed/?list={{ trailer.id.playlistId }}" frameborder="0" allowfullscreen></iframe>
+                                {% else %}
+                                    <iframe width="100%" height="400" src="https://www.youtube.com/embed/{{ trailer.id.videoId }}" frameborder="0" allowfullscreen></iframe>
+                                {% endif %}
+                                <div class="gap quarter">&nbsp;</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="gap half">&nbsp;</div>
+                {% endif %}
 
                 <div class="gap half">&nbsp;</div>
                 <div id="share"></div>
@@ -34,12 +61,12 @@
     </div>
 {% endblock %}
 
-{% block scripts %}
-    {{ parent() }}
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.jssocials/1.2.1/jssocials.min.js"></script>
-    <script>
-        $("#share").jsSocials({
-            shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest"]
-        });
-    </script>
-{% endblock %}
+    {% block scripts %}
+        {{ parent() }}
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.jssocials/1.2.1/jssocials.min.js"></script>
+        <script>
+            $("#share").jsSocials({
+                shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest"]
+            });
+        </script>
+    {% endblock %}

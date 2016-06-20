@@ -22,6 +22,12 @@ class ShowTVController implements ControllerProviderInterface {
 				'tmdb.token' => getenv( 'TMDB_TOKEN' )
 			]
 		);
+		$app->register(
+			new Provider\YouTubeAPIServiceProvider(),
+			[
+				'youtube.token' => getenv( 'YOUTUBE_TOKEN' )
+			]
+		);
 
 		// Set twig path
 		$app['twig.path'] = $app['root_dir'] . '/views/showtv';
@@ -62,15 +68,17 @@ class ShowTVController implements ControllerProviderInterface {
 	public function showsAction( $id, Application $app ) {
 		/**
 		 * @var \Tmdb\Client $tmdbClient
+		 * @var Youtube      $youtubeClient
 		 * @var Request      $request
 		 */
-		$tmdbClient = $app['tmdb.client']();
-		$request    = $app['request'];
-		$config     = $tmdbClient->getConfigurationApi();
-		$tv         = $tmdbClient->getTvApi();
+		$tmdbClient    = $app['tmdb.client']();
+		$youtubeClient = $app['youtube.client']();
+		$request       = $app['request'];
+		$config        = $tmdbClient->getConfigurationApi();
+		$tv            = $tmdbClient->getTvApi();
 
 		$searchTerm = $request->query->get( 's' );
-		$pageNumber = $request->query->get('page') ?: 1;
+		$pageNumber = $request->query->get( 'page' ) ?: 1;
 		$data       = [ ];
 
 		if ( $searchTerm ) {
@@ -106,6 +114,16 @@ class ShowTVController implements ControllerProviderInterface {
 					'similar'         => $tv->getSimilar( $id ),
 					'videos'          => $tv->getVideos( $id ),
 				];
+
+				$trailers = $youtubeClient->search( $data['meta']['name'] . ' tv trailer' );
+
+				$trailers = array_filter( $trailers, function ( $obj ) {
+					return isset( $obj->id->videoId );
+				} );
+
+				$trailers = array_slice( $trailers, 0, 5 );
+
+				$data['trailers'] = json_decode( json_encode( $trailers ), true );
 
 				return $app['twig']->render( 'shows_single.html.twig', $data );
 			}
