@@ -4,7 +4,7 @@ namespace App\Console\Command;
 
 use Dotenv\Dotenv;
 use Dotenv\Exception\ValidationException;
-use GuzzleHttp\Client;
+use Goutte\Client;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -67,10 +67,10 @@ class WebPageFinderCommand extends Command {
 		}
 
 		$client   = new Client();
-		$response = $client->get( $url );
-		$haystack = $response->getBody()->getContents();
+		$request  = $client->request( 'GET', $url );
+		$haystack = $request->filter( 'body' )->html();
 
-		$isFound = strpos( strtolower($haystack), strtolower($text) ) !== false;
+		$isFound = strpos( strtolower( $haystack ), strtolower( $text ) ) !== false;
 
 		if ( $isFound ) {
 			$message = sprintf(
