@@ -70,7 +70,7 @@ class WebPageFinderCommand extends Command {
 		$response = $client->get( $url );
 		$haystack = $response->getBody()->getContents();
 
-		$isFound = strpos( $haystack, $text ) !== false;
+		$isFound = strpos( strtolower($haystack), strtolower($text) ) !== false;
 
 		if ( $isFound ) {
 			$message = sprintf(
