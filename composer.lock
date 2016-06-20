@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "00934fd9f78548aca322d5605331d210",
-    "content-hash": "16ce92635200d09b0d0b6e35dcd70430",
+    "hash": "9c0580bfceeb270a5699106732f5fdc3",
+    "content-hash": "27af9c4cb0219729b16a0579601cd3a2",
     "packages": [
         {
             "name": "bolandish/instagram-grabber",
@@ -657,6 +657,52 @@
             "time": "2016-05-16 14:35:00"
         },
         {
+            "name": "maciejczyzewski/bottomline",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/maciejczyzewski/bottomline.git",
+                "reference": "8b7e2610d6f121c49a085efb7ad068924f1d3ead"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/maciejczyzewski/bottomline/zipball/8b7e2610d6f121c49a085efb7ad068924f1d3ead",
+                "reference": "8b7e2610d6f121c49a085efb7ad068924f1d3ead",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "bottomline.php"
+                ],
+                "psr-4": {
+                    "__\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maciej A. Czyzewski",
+                    "email": "maciejanthonyczyzewski@gmail.com"
+                }
+            ],
+            "description": "A full-on PHP manipulation utility-belt that provides support for the usual functional.",
+            "keywords": [
+                "__",
+                "bottomline",
+                "functions",
+                "library",
+                "utility"
+            ],
+            "time": "2016-06-16 18:42:58"
+        },
+        {
             "name": "madcoda/php-youtube-api",
             "version": "1.2",
             "source": {
@@ -1007,12 +1053,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/silexphp/Silex.git",
-                "reference": "7e5910f4ccb49f93861bd77a976a335a5f8c91f9"
+                "reference": "efe70d6a331ca7e8af8c1f6704063435040e35ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silexphp/Silex/zipball/7e5910f4ccb49f93861bd77a976a335a5f8c91f9",
-                "reference": "7e5910f4ccb49f93861bd77a976a335a5f8c91f9",
+                "url": "https://api.github.com/repos/silexphp/Silex/zipball/efe70d6a331ca7e8af8c1f6704063435040e35ee",
+                "reference": "efe70d6a331ca7e8af8c1f6704063435040e35ee",
                 "shasum": ""
             },
             "require": {
@@ -1084,7 +1130,7 @@
             "keywords": [
                 "microframework"
             ],
-            "time": "2016-06-14 09:30:10"
+            "time": "2016-06-20 16:04:18"
         },
         {
             "name": "sorien/silex-pimple-dumper",
@@ -1134,17 +1180,130 @@
             "time": "2016-05-31 11:15:09"
         },
         {
+            "name": "swiftmailer/swiftmailer",
+            "version": "5.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swiftmailer/swiftmailer.git",
+                "reference": "cb756ca1d13dfca2bce28b47579ac13dfb408579"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/cb756ca1d13dfca2bce28b47579ac13dfb408579",
+                "reference": "cb756ca1d13dfca2bce28b47579ac13dfb408579",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.4-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "lib/swift_required.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Corbyn"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Swiftmailer, free feature-rich PHP mailer",
+            "homepage": "http://swiftmailer.org",
+            "keywords": [
+                "email",
+                "mail",
+                "mailer"
+            ],
+            "time": "2016-06-14 20:23:16"
+        },
+        {
+            "name": "symfony/console",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/console.git",
+                "reference": "8963060a211a4d814dd6b7872eb900522485e29c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/console/zipball/8963060a211a4d814dd6b7872eb900522485e29c",
+                "reference": "8963060a211a4d814dd6b7872eb900522485e29c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "symfony/polyfill-mbstring": "~1.0"
+            },
+            "require-dev": {
+                "psr/log": "~1.0",
+                "symfony/event-dispatcher": "~2.8|~3.0",
+                "symfony/process": "~2.8|~3.0"
+            },
+            "suggest": {
+                "psr/log": "For using the console logger",
+                "symfony/event-dispatcher": "",
+                "symfony/process": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Console\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Console Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-06-20 11:17:38"
+        },
+        {
             "name": "symfony/debug",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "7e874063d91a6b36cf39a65a86d34adc447f4d1b"
+                "reference": "f387801cf728bf979d3cad0749b82de9d990c7b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/7e874063d91a6b36cf39a65a86d34adc447f4d1b",
-                "reference": "7e874063d91a6b36cf39a65a86d34adc447f4d1b",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/f387801cf728bf979d3cad0749b82de9d990c7b6",
+                "reference": "f387801cf728bf979d3cad0749b82de9d990c7b6",
                 "shasum": ""
             },
             "require": {
@@ -1188,7 +1347,63 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-06 15:09:02"
+            "time": "2016-06-20 15:51:36"
+        },
+        {
+            "name": "symfony/dom-crawler",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/dom-crawler.git",
+                "reference": "4b7d2f525946b3ac6ea417def3714271136e5c1e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/4b7d2f525946b3ac6ea417def3714271136e5c1e",
+                "reference": "4b7d2f525946b3ac6ea417def3714271136e5c1e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "symfony/polyfill-mbstring": "~1.0"
+            },
+            "require-dev": {
+                "symfony/css-selector": "~2.8|~3.0"
+            },
+            "suggest": {
+                "symfony/css-selector": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\DomCrawler\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony DomCrawler Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-06-14 06:40:06"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -2085,12 +2300,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bridge.git",
-                "reference": "399a7064dd0dd15482319be18a1a5f07f088ee47"
+                "reference": "51ddb59cad7c6cf918eb5c6d74f8b206cb23a42f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/399a7064dd0dd15482319be18a1a5f07f088ee47",
-                "reference": "399a7064dd0dd15482319be18a1a5f07f088ee47",
+                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/51ddb59cad7c6cf918eb5c6d74f8b206cb23a42f",
+                "reference": "51ddb59cad7c6cf918eb5c6d74f8b206cb23a42f",
                 "shasum": ""
             },
             "require": {
@@ -2158,7 +2373,7 @@
             ],
             "description": "Symfony Twig Bridge",
             "homepage": "https://symfony.com",
-            "time": "2016-06-16 05:23:20"
+            "time": "2016-06-18 20:40:40"
         },
         {
             "name": "symfony/var-dumper",

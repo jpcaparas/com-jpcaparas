@@ -27,7 +27,11 @@
     "twig/twig": "^1.24",
     "sorien/silex-pimple-dumper": "~2.0",
     "symfony/twig-bridge": "^3.1",
-    "php-tmdb/api": "~2.0"
+    "php-tmdb/api": "~2.0",
+    "maciejczyzewski/bottomline": "*",
+    "symfony/console": "^3.1",
+    "symfony/dom-crawler": "^3.1",
+    "swiftmailer/swiftmailer": "~5"
   },
   "autoload": {
     "psr-4": {
