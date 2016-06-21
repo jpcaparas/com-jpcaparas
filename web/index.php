@@ -53,7 +53,8 @@ $app->after( function ( Request $request, Response $response ) use ( $app ) {
 } );
 
 $app->match( '/', function () use ( $app ) {
-	return $app->redirect('http://jpcaparas.com', 302);
+	phpinfo();
+	return null;
 } );
 
 if ( $app['environment'] !== 'production' ) {

@@ -11,6 +11,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+
+/**
+ * @see http://stackoverflow.com/questions/27936323/debugging-laravel-artisan-from-phpstorm-with-homestead
+ *
+ * Class WebPageFinderCommand
+ * @package App\Console\Command
+ */
 class WebPageFinderCommand extends Command {
 	protected function configure() {
 		$this
@@ -29,12 +36,12 @@ class WebPageFinderCommand extends Command {
 			->addOption(
 				'notify',
 				null,
-				InputOption::VALUE_REQUIRED,
+				InputOption::VALUE_OPTIONAL,
 				'Notify a recipient via email if specified text exists on the webpage.'
 			);
 	}
 
-	protected function execute( InputInterface $input, OutputInterface $output ) {
+	public function execute( InputInterface $input, OutputInterface $output ) {
 		try {
 			$dotEnv = new Dotenv( __DIR__ . '/../../../..' );
 			$dotEnv->load();
