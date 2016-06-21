@@ -5,32 +5,31 @@ namespace App\Controller;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 
-class FireBaseController implements ControllerProviderInterface {
-	public function connect( Application $app ) {
-		$controllers = $app['controllers_factory'];
+class FireBaseController implements ControllerProviderInterface
+{
+    public function connect(Application $app)
+    {
+        $controllers = $app['controllers_factory'];
 
-		$controllers->get( '/', array( $this, 'indexAction' ) );
+        $controllers->get('/', array($this, 'indexAction'));
 
-		return $controllers;
-	}
+        return $controllers;
+    }
 
-	public function indexAction( Application $app ) {
-		try {
-			$firebaseUrl   = getenv( 'FIREBASE_URL' );
-			$firebaseToken = getenv( 'FIREBASE_TOKEN' );
-			$firebasePath  = getenv( 'FIREBASE_PATH' );
+    public function indexAction(Application $app)
+    {
+        try {
+            $firebaseUrl = getenv('FIREBASE_URL');
+            $firebaseToken = getenv('FIREBASE_TOKEN');
+            $firebasePath = getenv('FIREBASE_PATH');
 
-			$firebase = new \Firebase\FirebaseLib( $firebaseUrl, $firebaseToken );
+            $firebase = new \Firebase\FirebaseLib($firebaseUrl, $firebaseToken);
 
-			$data = $firebase->get( $firebasePath . '/web', 'Debugs' );
+            $data = $firebase->get($firebasePath.'/web', 'Debugs');
 
-			return $data;
-		}
-
-		catch
-		( Exception $e ) {
-			return $e->getMessage();
-		}
-	}
+            return $data;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
 }
-
