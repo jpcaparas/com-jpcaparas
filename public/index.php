@@ -14,7 +14,11 @@ $dotEnv->load();
 $app             = new Silex\Application();
 $app['root_dir'] = dirname( __DIR__ );
 $app['request']  = $app->factory( function ( $app ) {
-	return $app['request_stack']->getCurrentRequest();
+	/**
+	 * @type $request_stack \Symfony\Component\HttpFoundation\RequestStack
+	 */
+	$request_stack = $app['request_stack'];
+	return $request_stack->getCurrentRequest();
 } );
 
 $app['environment'] = $app->factory( function ( $app ) {
