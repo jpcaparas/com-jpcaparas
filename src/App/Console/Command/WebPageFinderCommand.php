@@ -34,17 +34,23 @@ class WebPageFinderCommand extends Command
                 'What is the string of text you want to search?'
             )
             ->addOption(
-                'notify',
+                'notify-if-exists',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Notify a recipient via email if specified text exists on the webpage.'
+                'Notify a recipient via email if specified text exists.'
+            )
+            ->addOption(
+                'notify-if-not-exists',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Notify a recipient instead if the text does not exist.'
             );
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
         try {
-            $dotEnv = new Dotenv(__DIR__.'/../../../..');
+            $dotEnv = new Dotenv(__DIR__ . '/../../../..');
             $dotEnv->load();
             $dotEnv->required([
                 'SMTP_HOST',
@@ -53,7 +59,7 @@ class WebPageFinderCommand extends Command
                 'SMTP_PASSWORD',
             ]);
         } catch (ValidationException $e) {
-            $output->writeln('Mailer error: '.$e->getMessage());
+            $output->writeln('Mailer error: ' . $e->getMessage());
 
             return;
         }
@@ -76,31 +82,41 @@ class WebPageFinderCommand extends Command
         $client = new Client();
         $request = $client->request('GET', $url);
         $haystack = $request->filter('body')->html();
+        $textFound = strpos(strtolower($haystack), strtolower($text)) !== false;
+        $notifyIfExists = $input->getOption('notify-if-exists');
+        $notifyIfNotExists = $input->getOption('notify-if-not-exists');
+        $recipient = null;
 
-        $isFound = strpos(strtolower($haystack), strtolower($text)) !== false;
-
-        if ($isFound) {
+        if ($textFound) {
             $message = sprintf(
                 'The text "%1$s" has been found on the body of this webpage: %2$s',
                 $text,
                 $url
             );
 
-            $notify = $input->getOption('notify');
-
-            if (!is_null($notify) && filter_var($notify, FILTER_VALIDATE_EMAIL)) {
-                $this->notify($notify, $url, $text);
-
-                $message .= sprintf(
-                    PHP_EOL.'The recipient {%1$s} has also been sent an email notification.',
-                    $notify
-                );
-            }
         } else {
             $message = sprintf(
-                'The text "%1$s" could not be found on the body of this webpage: %2$s',
+                'The text "%1$s" has not been found on the body of this webpage: %2$s',
                 $text,
                 $url
+            );
+        }
+
+
+        if ($textFound && $notifyIfExists && filter_var($notifyIfExists, FILTER_VALIDATE_EMAIL)) {
+            $this->notify($notifyIfExists, "[jpcaparas.com] Text \"{$text}\" found on {$url}", $message);
+            $recipient = $notifyIfExists;
+        }
+
+        if (!$textFound && $notifyIfNotExists && filter_var($notifyIfNotExists, FILTER_VALIDATE_EMAIL)) {
+            $this->notify($notifyIfNotExists, "[jpcaparas.com] Text \"{$text}\" NOT found on {$url}", $message);
+            $recipient = $notifyIfNotExists;
+        }
+
+        if (!is_null($recipient)) {
+            $message .= sprintf(
+                PHP_EOL . 'The recipient {%1$s} has also been sent an email notification.',
+                $recipient
             );
         }
 
@@ -108,40 +124,28 @@ class WebPageFinderCommand extends Command
     }
 
     /**
-     * @param $recipientEmail
-     * @param $url
-     * @param $text
+     * @param string $recipientEmail
+     * @param string $subject
+     * @param string $message
      *
      * @return int
      */
-    public function notify($recipientEmail, $url, $text)
+    public function notify($recipientEmail, $subject, $message)
     {
         $transport = \Swift_SmtpTransport::newInstance(getenv('SMTP_HOST'), getenv('SMTP_PORT'))
-                                         ->setUsername(getenv('SMTP_USERNAME'))
-                                         ->setPassword(getenv('SMTP_PASSWORD'));
-
-        $subject = sprintf(
-            '[%1$s] Text found on %2$s',
-            'jpcaparas.com',
-            $url
-        );
-
-        $body = sprintf(
-            'The text "%1$s" has been found on the body of this webpage: %2$s',
-            $text,
-            $url
-        );
+            ->setUsername(getenv('SMTP_USERNAME'))
+            ->setPassword(getenv('SMTP_PASSWORD'));
 
         $mailer = \Swift_Mailer::newInstance($transport);
 
         $message = \Swift_Message::newInstance($subject)
-                                 ->setFrom([
-                                     'jp@jpcaparas.com' => 'JP Caparas',
-                                 ])
-                                 ->setTo([
-                                     $recipientEmail,
-                                 ])
-                                 ->setBody($body);
+            ->setFrom([
+                'jp@jpcaparas.com' => 'JP Caparas',
+            ])
+            ->setTo([
+                $recipientEmail,
+            ])
+            ->setBody($message);
 
         $result = $mailer->send($message);
 

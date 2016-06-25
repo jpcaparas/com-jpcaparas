@@ -15,10 +15,10 @@ $app             = new Silex\Application();
 $app['root_dir'] = dirname( __DIR__ );
 $app['request']  = $app->factory( function ( $app ) {
 	/**
-	 * @type $request_stack \Symfony\Component\HttpFoundation\RequestStack
+	 * @type $requestStack \Symfony\Component\HttpFoundation\RequestStack
 	 */
-	$request_stack = $app['request_stack'];
-	return $request_stack->getCurrentRequest();
+	$requestStack = $app['request_stack'];
+	return $requestStack->getCurrentRequest();
 } );
 
 $app['environment'] = $app->factory( function ( $app ) {
