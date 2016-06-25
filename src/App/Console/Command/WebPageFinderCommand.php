@@ -11,139 +11,144 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 /**
  * @see http://stackoverflow.com/questions/27936323/debugging-laravel-artisan-from-phpstorm-with-homestead
  *
  * Class WebPageFinderCommand
- * @package App\Console\Command
  */
-class WebPageFinderCommand extends Command {
-	protected function configure() {
-		$this
-			->setName( 'app:webpagefinder' )
-			->setDescription( 'Check for the existence of a string of text in a webpage.' )
-			->addArgument(
-				'url',
-				InputArgument::REQUIRED,
-				'What is the URL of the webpage where you want to find a string of text?'
-			)
-			->addArgument(
-				'text',
-				InputArgument::REQUIRED,
-				'What is the string of text you want to search?'
-			)
-			->addOption(
-				'notify',
-				null,
-				InputOption::VALUE_OPTIONAL,
-				'Notify a recipient via email if specified text exists on the webpage.'
-			);
-	}
+class WebPageFinderCommand extends Command
+{
+    protected function configure()
+    {
+        $this
+            ->setName('app:webpagefinder')
+            ->setDescription('Check for the existence of a string of text in a webpage.')
+            ->addArgument(
+                'url',
+                InputArgument::REQUIRED,
+                'What is the URL of the webpage where you want to find a string of text?'
+            )
+            ->addArgument(
+                'text',
+                InputArgument::REQUIRED,
+                'What is the string of text you want to search?'
+            )
+            ->addOption(
+                'notify-if-exists',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Notify a recipient via email if specified text exists.'
+            )
+            ->addOption(
+                'notify-if-not-exists',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Notify a recipient instead if the text does not exist.'
+            );
+    }
 
-	public function execute( InputInterface $input, OutputInterface $output ) {
-		try {
-			$dotEnv = new Dotenv( __DIR__ . '/../../../..' );
-			$dotEnv->load();
-			$dotEnv->required( [
-				'SMTP_HOST',
-				'SMTP_PORT',
-				'SMTP_USERNAME',
-				'SMTP_PASSWORD'
-			] );
-		}
-		catch ( ValidationException $e ) {
-			$output->writeln( 'Mailer error: ' . $e->getMessage() );
+    public function execute(InputInterface $input, OutputInterface $output)
+    {
+        try {
+            $dotEnv = new Dotenv(__DIR__ . '/../../../..');
+            $dotEnv->load();
+            $dotEnv->required([
+                'SMTP_HOST',
+                'SMTP_PORT',
+                'SMTP_USERNAME',
+                'SMTP_PASSWORD',
+            ]);
+        } catch (ValidationException $e) {
+            $output->writeln('Mailer error: ' . $e->getMessage());
 
-			return;
-		}
+            return;
+        }
 
-		$url  = $input->getArgument( 'url' );
-		$text = $input->getArgument( 'text' );
+        $url = $input->getArgument('url');
+        $text = $input->getArgument('text');
 
-		if ( ! filter_var( $url, FILTER_VALIDATE_URL ) ) {
-			$output->writeln( 'Please enter a valid URL.' );
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            $output->writeln('Please enter a valid URL.');
 
-			return;
-		}
+            return;
+        }
 
-		if ( trim( $text ) === '' ) {
-			$output->writeln( 'Please enter the text to find.' );
+        if (trim($text) === '') {
+            $output->writeln('Please enter the text to find.');
 
-			return;
-		}
+            return;
+        }
 
-		$client   = new Client();
-		$request  = $client->request( 'GET', $url );
-		$haystack = $request->filter( 'body' )->html();
+        $client = new Client();
+        $request = $client->request('GET', $url);
+        $haystack = $request->filter('body')->html();
+        $textFound = strpos(strtolower($haystack), strtolower($text)) !== false;
+        $notifyIfExists = $input->getOption('notify-if-exists');
+        $notifyIfNotExists = $input->getOption('notify-if-not-exists');
+        $recipient = null;
 
-		$isFound = strpos( strtolower( $haystack ), strtolower( $text ) ) !== false;
+        if ($textFound) {
+            $message = sprintf(
+                'The text "%1$s" has been found on the body of this webpage: %2$s',
+                $text,
+                $url
+            );
 
-		if ( $isFound ) {
-			$message = sprintf(
-				'The text "%1$s" has been found on the body of this webpage: %2$s',
-				$text,
-				$url
-			);
+        } else {
+            $message = sprintf(
+                'The text "%1$s" has not been found on the body of this webpage: %2$s',
+                $text,
+                $url
+            );
+        }
 
-			$notify = $input->getOption( 'notify' );
 
-			if ( ! is_null( $notify ) && filter_var( $notify, FILTER_VALIDATE_EMAIL ) ) {
-				$this->notify( $notify, $url, $text );
+        if ($textFound && $notifyIfExists && filter_var($notifyIfExists, FILTER_VALIDATE_EMAIL)) {
+            $this->notify($notifyIfExists, "[jpcaparas.com] Text \"{$text}\" found on {$url}", $message);
+            $recipient = $notifyIfExists;
+        }
 
-				$message .= sprintf(
-					PHP_EOL . 'The recipient {%1$s} has also been sent an email notification.',
-					$notify
-				);
-			}
-		} else {
-			$message = sprintf(
-				'The text "%1$s" could not be found on the body of this webpage: %2$s',
-				$text,
-				$url
-			);
-		}
+        if (!$textFound && $notifyIfNotExists && filter_var($notifyIfNotExists, FILTER_VALIDATE_EMAIL)) {
+            $this->notify($notifyIfNotExists, "[jpcaparas.com] Text \"{$text}\" NOT found on {$url}", $message);
+            $recipient = $notifyIfNotExists;
+        }
 
-		$output->writeln( $message );
-	}
+        if (!is_null($recipient)) {
+            $message .= sprintf(
+                PHP_EOL . 'The recipient {%1$s} has also been sent an email notification.',
+                $recipient
+            );
+        }
 
-	/**
-	 * @param $recipientEmail
-	 * @param $url
-	 * @param $text
-	 *
-	 * @return int
-	 */
-	public function notify( $recipientEmail, $url, $text ) {
-		$transport = \Swift_SmtpTransport::newInstance( getenv( 'SMTP_HOST' ), getenv( 'SMTP_PORT' ) )
-		                                 ->setUsername( getenv( 'SMTP_USERNAME' ) )
-		                                 ->setPassword( getenv( 'SMTP_PASSWORD' ) );
+        $output->writeln($message);
+    }
 
-		$subject = sprintf(
-			'[%1$s] Text found on %2$s',
-			'jpcaparas.com',
-			$url
-		);
+    /**
+     * @param string $recipientEmail
+     * @param string $subject
+     * @param string $message
+     *
+     * @return int
+     */
+    public function notify($recipientEmail, $subject, $message)
+    {
+        $transport = \Swift_SmtpTransport::newInstance(getenv('SMTP_HOST'), getenv('SMTP_PORT'))
+            ->setUsername(getenv('SMTP_USERNAME'))
+            ->setPassword(getenv('SMTP_PASSWORD'));
 
-		$body = sprintf(
-			'The text "%1$s" has been found on the body of this webpage: %2$s',
-			$text,
-			$url
-		);
+        $mailer = \Swift_Mailer::newInstance($transport);
 
-		$mailer = \Swift_Mailer::newInstance( $transport );
+        $message = \Swift_Message::newInstance($subject)
+            ->setFrom([
+                'jp@jpcaparas.com' => 'JP Caparas',
+            ])
+            ->setTo([
+                $recipientEmail,
+            ])
+            ->setBody($message);
 
-		$message = \Swift_Message::newInstance( $subject )
-		                         ->setFrom( [
-			                         'jp@jpcaparas.com' => 'JP Caparas',
-		                         ] )
-		                         ->setTo( [
-			                         $recipientEmail
-		                         ] )
-		                         ->setBody( $body );
+        $result = $mailer->send($message);
 
-		$result = $mailer->send( $message );
-
-		return $result;
-	}
+        return $result;
+    }
 }

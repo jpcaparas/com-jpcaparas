@@ -12,3 +12,6 @@ composer.phar
 
 # Pimple
 pimple.json
+
+# Config
+/config/
