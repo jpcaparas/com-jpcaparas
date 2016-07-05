@@ -1,0 +1,9 @@
+body {
+  padding-top: 50px;
+}
+body > main {
+  margin-top: 20px;
+}
+.form-control {
+  margin-bottom: 20px;
+}
