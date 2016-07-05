@@ -1,5 +1,6 @@
 {
   "name": "jpcaparas/jpcaparas.app",
+  "version": "0.2.0",
   "description": "The JPCaparas.com app",
   "type": "project",
   "license": "MIT",
@@ -12,34 +13,25 @@
   "minimum-stability": "dev",
   "require": {
     "silex/silex": "~2.0",
-    "league/fractal": "~0.13",
-    "league/flysystem": "~1.0",
-    "nesbot/carbon": "~1.21",
     "vlucas/phpdotenv": "~2.2",
-    "ktamas77/firebase-php": "~2.0",
-    "bolandish/instagram-grabber": "^1.0",
     "guzzlehttp/guzzle": "~5.0",
-    "symfony/var-dumper": "^3.1",
-    "symfony/serializer": "^3.1",
-    "symfony/security": "^3.1",
-    "madcoda/php-youtube-api": "^1.2",
     "donatj/phpuseragentparser": "^0.5.1",
     "twig/twig": "^1.24",
-    "sorien/silex-pimple-dumper": "~2.0",
-    "symfony/twig-bridge": "^3.1",
-    "php-tmdb/api": "~2.0",
     "maciejczyzewski/bottomline": "*",
     "symfony/console": "^3.1",
-    "swiftmailer/swiftmailer": "~5",
     "fabpot/goutte": "~2.0",
-    "coresphere/console-bundle": "^0.4.0",
     "symfony/yaml": "^3.1",
-    "doctrine/orm": "^2.5"
+    "doctrine/orm": "^2.5",
+    "symfony/form": "^3.1",
+    "symfony/translation": "^3.1",
+    "symfony/validator": "^3.1",
+    "symfony/twig-bridge": "^3.1",
+    "symfony/config": "^3.1",
+    "swiftmailer/swiftmailer": "~5"
   },
   "autoload": {
     "psr-4": {
-      "App\\": "src/App",
-      "JobListingBundle\\": "src/JobListingBundle"
+      "App\\": "src/App"
     }
   }
 }

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}JPCaparas.com{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    {% block stylesheets %}
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/cyborg/bootstrap.min.css?site_version={{ app.version }}"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css?site_version={{ app.version }}"/>
+        <link rel="stylesheet"
+              href="{{ app.request.baseUrl ~ '/assets/css/styles.css?site_version=' ~ app.version }}"/>
+    {% endblock stylesheets %}
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js?site_version={{ app.version }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js?site_version={{ app.version }}"></script>
+    <![endif]-->
+</head>
+<body>
+{% block nav %}
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-offset-8 col-md-offset-2">
+                    <div class="navbar-header">
+                        <a href="{{ app.request.baseurl }}" class="navbar-brand">JP Caparas</a>
+                        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="navbar-collapse collapse" id="navbar-main">
+                        <ul class="nav navbar-nav">
+                            {% set nav_items = [
+                            {"route": "/", "title": "Home", "icon": "fa-home"},
+                            {"route": "/portfolio", "title": "Portfolio", "icon": "fa-briefcase"},
+                            {"route": "/contact", "title": "Contact", "icon": "fa-send"}
+                            ] %}
+
+                            {% for nav_item in nav_items %}
+                                <li class="{{ nav_item.route == app.request.pathInfo ? "active" : null }}">
+                                    <a href="{{ app.request.baseUrl ~ nav_item.route }}">
+                                        <i class="fa {{ nav_item.icon }}"></i>&nbsp;
+                                        {{ nav_item.title }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+{% endblock nav %}
+{% block main %}
+    <main>
+        <div class="alert alert-danger">
+            <p>That page does not exist.</p>
+        </div>
+    </main>
+{% endblock main %}
+
+{% block footer %}
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-8 col-md-offset-2">
+                    <hr/>
+                    <p class="small text-center">
+                        &copy; {{ 'now'|date("Y") }} | Built with <a href="http://silex.sensiolabs.org/">Silex</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock footer %}
+{% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js?site_version={{ app.version }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js?site_version={{ app.version }}"></script>
+    <script src=""></script>
+{% endblock %}
+{% if app.google_analytics_id is not empty %}
+    {% include "partials/ga.html.twig" with {'google_analytics_id': app.google_analytics_id} only %}
+{% endif %}
+</body>
+</html>
